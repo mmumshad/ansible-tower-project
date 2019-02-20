@@ -6,3 +6,10 @@
     - include_role:
         name: azure-provision-vm-linux
       when: os_type == 'Linux'
+    - include_role:
+        name: azure-boot-diagnostics
+    - include_role:
+        name: azure-monitoring
+    - include_role:
+        name: azure-backup
+        
