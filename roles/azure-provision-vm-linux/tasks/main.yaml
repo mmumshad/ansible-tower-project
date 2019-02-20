@@ -1,0 +1,19 @@
+- name: Provision Linux VM
+  azure_rm_virtualmachine:
+    ad_user: "{{ username }}"
+    password: "{{ password }}"
+    resource_group: "{{ resource_group }}"
+    name: "{{ vm_name }}"
+    public_ip_allocation_method: Dynamic
+    vm_size: "{{ vm_size }}"
+    admin_username: "{{ admin_username }}"
+    ssh_password_enabled: "{{ ssh_password_enabled }}"
+    ssh_public_keys: "{{ ssh_public_keys }}"
+    virtual_network_name: "{{ virtual_network_name }}"
+    subnet_name: "{{ subnet_name }}"
+    storage_account_name: "{{ storage_account_name }}"
+    managed_disk_type: "{{ managed_disk_type }}"
+    os_disk_size_gb: "{{ os_disk_size_gb }}"
+    image: "{{ images[vm_image] }}"
+    tags: "{{ tags }}"
+    # network_interface_names: "{{ network_interface_names | default('None') }}"

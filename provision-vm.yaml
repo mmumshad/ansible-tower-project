@@ -1,0 +1,12 @@
+- hosts: all
+  vars:
+    vm_name: windows-vm-test
+    vm_image: WIN_2016
+    os_type: Windows
+  tasks:
+    - include_role:
+        name: azure-provision-vm-windows
+      when: os_type == 'Windows'
+    - include_role:
+        name: azure-provision-vm-linux
+      when: os_type == 'Linux'

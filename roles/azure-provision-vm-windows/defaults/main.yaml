@@ -1,0 +1,6 @@
+images:
+  WIN_2016:
+    offer: WindowsServer
+    publisher: MicrosoftWindowsServer
+    sku: 2016-Datacenter
+    version: latest
