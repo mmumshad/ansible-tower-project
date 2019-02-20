@@ -1,0 +1,16 @@
+- name: Enable Boot diagnostics
+  tags:
+    - "enable-boot-diagnostics"
+  azure_rm_resource:
+    resource_group: "{{ resource_group }}"
+    provider: compute
+    resource_type: virtualmachines
+    resource_name: "{{ vm_name }}"
+    api_version: "2018-06-01"
+    body:
+      location: "{{ location }}"
+      properties:
+        diagnosticsProfile:
+          bootDiagnostics:
+            enabled: True
+            storageUri: "https://{{ storage_account_name }}.blob.core.windows.net/"

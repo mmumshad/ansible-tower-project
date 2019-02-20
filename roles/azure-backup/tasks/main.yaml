@@ -1,0 +1,62 @@
+- name: Get Backup Vault Details
+  tags:
+    - "get-backup-vault-details"
+    - "get-backup-protectable-items"
+    - "enable-backup"
+  azure_rm_resource_facts:
+    resource_group: "{{ resource_group }}"
+    provider: recoveryservices
+    resource_type: vaults
+    resource_name: "{{ backup_recovery_vault }}"
+    api_version: "2016-12-01"
+  register: backup_vault_info
+
+- name: Get Backup Policy Details
+  tags:
+    - "get-backup-policy-details"
+    - "enable-backup"
+  azure_rm_resource_facts:
+    resource_group: "{{ resource_group }}"
+    provider: recoveryservices
+    resource_type: vaults
+    resource_name: "{{ backup_recovery_vault }}"
+    api_version: "2016-12-01"
+    subresource:
+      - type: backupPolicies
+        name: "{{ backup_policy_name }}"
+  register: backup_policy_info
+
+- name: Get Backup Protectable Items
+  tags:
+    - "get-backup-protectable-items"
+    - "enable-backup"
+  azure_rm_resource_facts:
+    url: "{{ backup_vault_info.url }}/backupProtectableItems?api-version=2016-12-01&$filter=backupManagementType%20eq%20%27AzureIaasVM%27 and friendlyName%20eq%20%27{{ vm_name }}%27"
+    api_version: "2016-12-01"
+  register: backup_protectable_items_info
+
+- name: Get VM Info
+  tags:
+    - "get-vm-info"
+    - "enable-backup"
+  azure_rm_resource_facts:
+    resource_group: "{{ resource_group }}"
+    provider: compute
+    resource_type: virtualmachines
+    resource_name: "{{ vm_name }}"
+    api_version: "2018-06-01"
+  register: vm_info
+
+- name: Enable Backup
+  tags:
+    - "enable-backup"
+  azure_rm_resource:
+    url: "{{ backup_protectable_items_info.response[0].value[0].id | regex_replace('protectableItems', 'protectedItems') }}"
+    api_version: "2016-12-01"
+    body:
+      method: PUT
+      location: "{{ location }}"
+      properties:
+        protectedItemType: "Microsoft.Compute/virtualMachines"
+        sourceResourceId: "{{ vm_info.url }}"
+        policyId: "{{ backup_policy_info.url }}"
