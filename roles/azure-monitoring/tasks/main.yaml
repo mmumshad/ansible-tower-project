@@ -1,11 +1,11 @@
 - name: Set the right Monitoring Agent Options for Linux
-  set_facts:
+  set_fact:
     virtual_machine_extension_type: OmsAgentForLinux
     type_handler_version: 1.7
   when: os_type == 'Linux'
 
 - name: Set the right Monitoring Agent Options for Windows
-  set_facts:
+  set_fact:
     virtual_machine_extension_type: MicrosoftMonitoringAgent
     type_handler_version: 1.0
   when: os_type == 'Windows'
