@@ -1,0 +1,7 @@
+monitoring_agent_options:
+  Windows:
+    virtual_machine_extension_type: MicrosoftMonitoringAgent
+    type_handler_version: 1.0
+  Linux:
+    virtual_machine_extension_type: OmsAgentForLinux
+    type_handler_version: 1.7

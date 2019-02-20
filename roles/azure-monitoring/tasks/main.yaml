@@ -1,15 +1,3 @@
-- name: Set the right Monitoring Agent Options for Linux
-  set_fact:
-    virtual_machine_extension_type: OmsAgentForLinux
-    type_handler_version: 1.7
-  when: os_type == 'Linux'
-
-- name: Set the right Monitoring Agent Options for Windows
-  set_fact:
-    virtual_machine_extension_type: MicrosoftMonitoringAgent
-    type_handler_version: 1.0
-  when: os_type == 'Windows'
-
 - name: Enable Monitoring agent
   tags:
     - "monitoring-agent"
@@ -18,7 +6,7 @@
     resource_group: "{{ resource_group }}"
     virtual_machine_name: "{{ vm_name }}"
     publisher: Microsoft.EnterpriseCloud.Monitoring
-    virtual_machine_extension_type: "{{ virtual_machine_extension_type }}"
-    type_handler_version: "{{ type_handler_version }}"
+    virtual_machine_extension_type: "{{ monitoring_agent_options[os_type].virtual_machine_extension_type }}"
+    type_handler_version: "{{ monitoring_agent_options[os_type].type_handler_version }}"
     settings: '{"workspaceId": "{{ log_analytics_workspace_id }}"}'
     protected_settings: '{"workspaceKey": "{{ log_analytics_workspace_key }}"}'
