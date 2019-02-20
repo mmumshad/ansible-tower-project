@@ -1,8 +1,4 @@
-- hosts: all
-  vars:
-    vm_name: windows-vm-test
-    vm_image: WIN_2016
-    os_type: Windows
+- hosts: localhost
   tasks:
     - include_role:
         name: azure-provision-vm-windows

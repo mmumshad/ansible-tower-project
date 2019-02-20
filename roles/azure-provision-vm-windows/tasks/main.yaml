@@ -1,4 +1,4 @@
-- name: Provision Windows VM
+- name: Provision Linux VM
   azure_rm_virtualmachine:
     ad_user: "{{ username }}"
     password: "{{ password }}"
@@ -12,7 +12,7 @@
     subnet_name: "{{ subnet_name }}"
     storage_account_name: "{{ storage_account_name }}"
     managed_disk_type: "{{ managed_disk_type }}"
-    os_disk_size_gb: "{{ os_disk_size_gb }}"
+    # os_disk_size_gb: "{{ os_disk_size_gb }}" # Consider minimum disk size for windows.
     os_type: Windows
     image: "{{ images[vm_image] }}"
     tags: "{{ tags }}"
