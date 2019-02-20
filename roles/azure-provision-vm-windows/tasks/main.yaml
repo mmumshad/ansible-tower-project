@@ -1,7 +1,5 @@
-- name: Provision Linux VM
+- name: Provision Windows VM
   azure_rm_virtualmachine:
-    ad_user: "{{ username }}"
-    password: "{{ password }}"
     resource_group: "{{ resource_group }}"
     name: "{{ vm_name }}"
     public_ip_allocation_method: Dynamic
