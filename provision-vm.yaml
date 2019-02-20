@@ -10,6 +10,5 @@
         name: azure-boot-diagnostics
     - include_role:
         name: azure-monitoring
-    - include_role:
-        name: azure-backup
-        
+    # - include_role:
+    #     name: azure-backup
