@@ -6,9 +6,19 @@
     - include_role:
         name: azure-provision-vm-linux
       when: os_type == 'Linux'
+
     - include_role:
         name: azure-boot-diagnostics
+      when: enable_boot_diagnostics | default(false)
+
     - include_role:
         name: azure-monitoring
-    # - include_role:
-    #     name: azure-backup
+      when: enable_monitoring | default(false)
+
+    - include_role:
+        name: azure-backup
+      when: enable_backup | default(false)
+
+    - include_role:
+        name: azure-vm-disk
+      when: add_disk | default(false)

@@ -1,0 +1,7 @@
+- name: Create and mount managed disk
+  azure_rm_managed_disk:
+    name: "{{ disk_name }}"
+    location: "{{ location }}"
+    resource_group: "{{ resource_group }}"
+    disk_size_gb: "{{ disk_size_gb }}"
+    managed_by: "{{ vm_name }}"

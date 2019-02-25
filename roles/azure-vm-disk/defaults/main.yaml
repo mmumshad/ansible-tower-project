@@ -1,0 +1,11 @@
+images:
+  RHEL_7:
+    offer: RHEL
+    publisher: RedHat
+    sku: 7-RAW
+    version: latest
+  UBUNTU_18_04:
+    offer: UbuntuServer
+    publisher: Canonical
+    sku: 18.04-LTS
+    version: latest
