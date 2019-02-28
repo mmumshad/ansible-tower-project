@@ -2,6 +2,8 @@
   become: yes
   tasks:
     - include_role:
+        name: azure-linux-configure-disk
+    - include_role:
         name: azure-nginx
 
 - hosts: test-linux-1

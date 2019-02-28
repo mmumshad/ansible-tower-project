@@ -1,0 +1,17 @@
+- name: Format newly attached disk
+  parted:
+     device: /dev/sdc
+     number: 1
+     flags: [ lvm ]
+     state: present
+
+- name: Create a ext2 filesystem on /dev/sdc1
+  filesystem:
+    fstype: ext4
+    dev: /dev/sdc1
+
+- mount:
+    fstype: ext4
+    src: /dev/sdc1
+    path: /nginx-data
+    state: mounted
