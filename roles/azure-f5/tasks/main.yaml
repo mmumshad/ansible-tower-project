@@ -58,7 +58,7 @@
     validate_certs: no
 
     state: present
-    pool: linux-pool
+    pool: "{{ lb_pool_name }}"
     partition: Common
     name: "{{ item.name }}"
     port: 80
