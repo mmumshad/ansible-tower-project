@@ -1,0 +1,85 @@
+# - name: Add a registration key license to a pool
+#   bigip_device_license:
+#     license_key: "{{ f5_license }}"
+#     user: "{{ f5_username }}"
+#     password: "{{ f5_password }}"
+#     server: "{{ f5_server }}"
+#     server_port: "{{ f5_port }}"
+#     # provider:
+#     #   user: "{{ f5_username }}"
+#     #   password: "{{ f5_password }}"
+#     #   server: "{{ f5_server }}"
+#     #   port: "{{ f5_port }}"
+#     accept_eula: yes
+#     state: present
+#     validate_certs: no
+#   delegate_to: localhost
+
+- name: Add node
+  bigip_node:
+
+    user: "{{ f5_username }}"
+    password: "{{ f5_password }}"
+    server: "{{ f5_server }}"
+    server_port: "{{ f5_port }}"
+    validate_certs: no
+
+    state: present
+    partition: Common
+    host: "{{ item.host }}"
+    name: "{{ item.name }}"
+  delegate_to: localhost
+  loop: "{{ f5_nodes }}"
+
+
+- name: Create pool
+  bigip_pool:
+    user: "{{ f5_username }}"
+    password: "{{ f5_password }}"
+    server: "{{ f5_server }}"
+    server_port: "{{ f5_port }}"
+    validate_certs: no
+
+    monitors:
+      - http
+    state: present
+    name: "{{ lb_pool_name }}"
+    partition: Common
+    lb_method: least-connections-member
+    slow_ramp_time: 120
+  delegate_to: localhost
+
+- name: Add pool member
+  bigip_pool_member:
+    user: "{{ f5_username }}"
+    password: "{{ f5_password }}"
+    server: "{{ f5_server }}"
+    server_port: "{{ f5_port }}"
+    validate_certs: no
+
+    state: present
+    pool: linux-pool
+    partition: Common
+    name: "{{ item.name }}"
+    port: 80
+  delegate_to: localhost
+  loop: "{{ f5_nodes }}"
+
+
+- name: Add virtual server
+  bigip_virtual_server:
+    user: "{{ f5_username }}"
+    password: "{{ f5_password }}"
+    server: "{{ f5_server }}"
+    server_port: "{{ f5_port }}"
+    validate_certs: no
+
+    state: present
+    partition: Common
+    name: my-virtual-server
+    destination: "{{ lb_virtual_server }}"  # Check this
+    port: "{{ lb_virtual_server_port }}"
+    pool: "{{ lb_pool_name }}"
+    snat: Automap
+    description: Test Virtual Server
+  delegate_to: localhost

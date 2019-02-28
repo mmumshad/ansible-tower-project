@@ -1,0 +1,6 @@
+- hosts: localhost
+  tasks:
+    - include_role:
+        name: azure-f5
+      vars:
+        state: present
