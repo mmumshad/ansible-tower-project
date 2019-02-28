@@ -1,7 +1,7 @@
 - hosts: test-linux-1
-  become: yes
   tasks:
     - include_role:
         name: azure-nginx
+      become: yes
     - include_role:
         name: azure-f5

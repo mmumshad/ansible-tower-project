@@ -76,7 +76,7 @@
 
     state: present
     partition: Common
-    name: my-virtual-server
+    name: "{{ lb_virtual_server_name }}"
     destination: "{{ lb_virtual_server }}"  # Check this
     port: "{{ lb_virtual_server_port }}"
     pool: "{{ lb_pool_name }}"
