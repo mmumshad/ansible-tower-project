@@ -1,6 +1,6 @@
 # Ansible Role: azure-aks
 
-## Provision AKS Cluster
+## Create namespace on kubernetes cluster and deploy test application
 
 Pre-Requisite:
 
