@@ -18,3 +18,14 @@ Retreive client_id (appId) and client_secret(password)
   "tenant": "72f988bf-86f1-41af-91ab-2d7cd011db48"
 }
 ```
+
+## variables
+
+```
+dns_prefix: aks-test
+aks_admin_username: mannambm
+aks_ssh_key: "ssh-rsa ....c4YzgAWzjTjt4N7 mannambm@5CG7155TJH"
+service_principal:
+  client_id: "f1e86bb0-f0d4-483a-83d0-fa0b9e42fa4d"
+  client_secret: "9d64caa8-1f9a-444a-a247-4df30885f2d7"
+```
