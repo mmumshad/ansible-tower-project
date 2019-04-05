@@ -26,6 +26,6 @@ dns_prefix: aks-test
 aks_admin_username: mannambm
 aks_ssh_key: "ssh-rsa ....c4YzgAWzjTjt4N7 mannambm@5CG7155TJH"
 service_principal:
-  client_id: "f1e86bb0-f0d4-483a-83d0-fa0b9e42fa4d"
-  client_secret: "9d64caa8-1f9a-444a-a247-4df30885f2d7"
+  client_id: "559513bd-0c19-4c1a-87cd-851a26afd5fc"
+  client_secret: "e763725a-5eee-40e8-a466-dc88d980f415"
 ```
