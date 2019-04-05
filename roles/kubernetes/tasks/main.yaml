@@ -1,0 +1,23 @@
+- name: Create a k8s namespace
+  k8s:
+    kubeconfig: tests/aks-kubeconfig.yaml
+    context: test-linux-1
+    api_version: v1
+    kind: Namespace
+    name: "{{ kube_namespace }}"
+    state: "{{ kube_app_state }}"
+
+- git:
+    repo: 'https://github.com/mmumshad/kubernetes-example-voting-app-singlefile.git'
+    dest: /tmp/voting-app
+  when: kube_app_state == "present"
+
+- name: Create a k8s namespace
+  k8s:
+    kubeconfig: tests/aks-kubeconfig.yaml
+    context: test-linux-1
+    api_version: v1
+    namespace: "{{ kube_namespace }}"
+    src: /tmp/voting-app/voting-app.yaml
+    state: "{{ kube_app_state }}"
+  when: kube_app_state == "present"

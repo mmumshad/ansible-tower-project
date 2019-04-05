@@ -1,0 +1,5 @@
+- name: Provision Managed AKS Cluster on Azure
+  hosts: localhost
+  tasks:
+    - include_role:
+        name: azure-aks

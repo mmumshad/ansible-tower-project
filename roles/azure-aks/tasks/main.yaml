@@ -1,0 +1,21 @@
+- name: Create a managed Azure Container Services (AKS) instance
+  azure_rm_aks:
+    name: "{{ vm_name }}"
+    location: "{{ location }}"
+    resource_group: "{{ resource_group }}"
+    dns_prefix: "{{ dns_prefix }}"
+    linux_profile:
+      admin_username: "{{ aks_admin_username }}"
+      ssh_key: "{{ aks_ssh_key }}"
+    service_principal: "{{ service_principal }}"
+    agent_pool_profiles:
+      - name: default
+        count: 2
+        vm_size: "{{ vm_size }}"
+    tags:
+      Environment: Testing
+  register: aks_results
+
+- name: Print aks_results
+  debug:
+    msg: "{{ aks_results }}"
