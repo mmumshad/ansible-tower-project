@@ -1,0 +1,5 @@
+- name: Provision Applicate Gateway for Ansible Tower
+  hosts: localhost
+  tasks:
+    - include_role:
+        name: azure-app-gw

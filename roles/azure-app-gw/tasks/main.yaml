@@ -1,0 +1,73 @@
+-  name: Create a public ip address
+   azure_rm_publicipaddress:
+    resource_group: "{{ resource_group }}"
+    name: "{{ public_ip_address }}"
+    allocation_method: Dynamic # Application Gateway with SKU tier Standard can only reference a PublicIPAddress with IpAllocationMethod as Dynamic
+   register: public_ip_details
+
+- name: Create instance of Application Gateway
+  register: app_gateway_results
+  azure_rm_appgateway:
+    resource_group: "{{ resource_group }}"
+    name: "{{ app_gateway_name }}"
+    sku:
+      name: standard_small
+      tier: standard
+      capacity: 2
+    gateway_ip_configurations:
+      - subnet:
+          id: "/subscriptions/e2f9cf00-5995-4d25-8080-38707dd092f4/resourceGroups/rg-ansible/providers/Microsoft.Network/virtualNetworks/vn-bastion-ansible/subnets/app-gw-subnet"
+        name: "{{ app_gateway_name }}_ip_config"
+    frontend_ip_configurations:
+      - name: "{{ app_gateway_name }}_frontend_ip_config"
+        public_ip_address: "{{ public_ip_address }}"
+    frontend_ports:
+      - port: 443
+        name: "{{ app_gateway_name }}_frontend_port"
+    backend_address_pools:
+      - backend_addresses: "{{ backend_addresses }}"
+        name: "{{ app_gateway_name }}_backend_address_pool"
+    backend_http_settings_collection:
+      - port: 80
+        protocol: http
+        cookie_based_affinity: disabled
+        name: "{{ app_gateway_name }}_http_settings"
+    http_listeners:
+      - frontend_ip_configuration: "{{ app_gateway_name }}_frontend_ip_config"
+        frontend_port: "{{ app_gateway_name }}_frontend_port"
+        protocol: https
+        ssl_certificate: "{{ app_gateway_name }}_ssl_cert"
+        name: "{{ app_gateway_name }}_http_listener"
+    ssl_certificates:
+      - name: "{{ app_gateway_name }}_ssl_cert"
+        data: "{{ lookup('file', 'files/self-signed-cert.txt') }}"
+    request_routing_rules:
+      - rule_type: Basic
+        backend_address_pool: "{{ app_gateway_name }}_backend_address_pool"
+        backend_http_settings: "{{ app_gateway_name }}_http_settings"
+        http_listener: "{{ app_gateway_name }}_http_listener"
+        name: "{{ app_gateway_name }}_rule"
+
+- name: Get Application Gateway Details
+  azure_rm_resource_facts:
+    # url: "/subscriptions/e2f9cf00-5995-4d25-8080-38707dd092f4/resourceGroups/rg-ansible/providers/Microsoft.Network/applicationGateways/"{{ app_gateway_name }}""
+    resource_group:  "{{ resource_group }}"
+    provider: Network
+    resource_type: applicationGateways
+    resource_name: "{{ app_gateway_name }}"
+    api_version: "2018-11-01"
+  register: app_gateway_details
+
+- name: Print app_gateway_details
+  debug:
+    msg: "{{ app_gateway_details }}"
+
+- name: Get facts for one Public IP
+  azure_rm_publicipaddress_facts:
+    resource_group: "{{ resource_group }}"
+    name: "{{ public_ip_address }}"
+  register: public_ip_details
+
+- name: Print public_ip_details
+  debug:
+    msg: "{{ public_ip_details.ansible_facts.azure_publicipaddresses[0].properties.ipAddress }}"
