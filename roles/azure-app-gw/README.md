@@ -1,8 +1,9 @@
-# Ansible Role: azure-aks
+# Ansible Role: azure-app-gw
 
-## Provision AKS Cluster
+## Provision Application Gateway
 
-Pre-Requisite:
+**Pre-Requisites:**
+
 The Application Gateway requires an empty subnet in the same Virtual Network as the target systems. The default subnet took up all the address space in the virtual network. So I had to create a new address space for the App Gateway and create new subnet using that.
 
 The Application Gateway also requires certificates for SSL Termination. I created a self-signed certificate following the below steps:
