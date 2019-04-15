@@ -19,7 +19,7 @@ cat certificate.pfx | base64
 Inputs:
 
 1. **Backend Addresses:** The internal private addresses of the Ansible Tower instances.
-2. **Subnet ID:** The subnet ID of the subnet created for Application Gateway. eg: `/subscriptions/e2f9cf00-5995-4d25-8080-38707dd092f4/resourceGroups/rg-ansible/providers/Microsoft.Network/virtualNetworks/vn-bastion-ansible/subnets/app-gw-subnet`
+2. **Subnet ID:** The subnet ID of the subnet created for Application Gateway. eg: `/subscriptions/e2fXXXX-XXXX-XXXX-XXXX-XXXXX092f4/resourceGroups/rg-ansible/providers/Microsoft.Network/virtualNetworks/vn-bastion-ansible/subnets/app-gw-subnet`.
 3. **Certificate Data:** Base-64 encoded pfx certificate
 
 > Note: Sometimes it may take up to 20 minutes for the Application Gateway to be provisioned.
@@ -27,6 +27,7 @@ Inputs:
 ```
 app_gateway_name: test-app-gw-18
 public_ip_address: app_gw_public_ip_18
+subnet_id: /subscriptions/e2fXXXX-XXXX-XXXX-XXXX-XXXXX092f4/resourceGroups/rg-ansible/providers/Microsoft.Network/virtualNetworks/vn-bastion-ansible/subnets/app-gw-subnet
 backend_addresses:
   - ip_address: 10.191.0.5
   - ip_address: 10.191.0.6
